@@ -1,11 +1,5 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Counter } from '../Counter';
-
-const clickEvent = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-  button: 0
-});
 
 it('Counter increments and decrements when the buttons are clicked', () => {
   const { container } = render(<Counter />);
@@ -14,8 +8,8 @@ it('Counter increments and decrements when the buttons are clicked', () => {
   const [decrement, increment] = container.querySelectorAll('button');
 
   expect(message.textContent).toBe('Current count: 0');
-  increment.dispatchEvent(clickEvent);
+  fireEvent.click(increment);
   expect(message.textContent).toBe('Current count: 1');
-  decrement.dispatchEvent(clickEvent);
+  fireEvent.click(decrement);
   expect(message.textContent).toBe('Current count: 0');
 });
