@@ -1,5 +1,12 @@
+import { Counter } from './components/counter';
+import './App.css';
+
 function App() {
-  return <div>Learn unit testing in React</div>;
+  return (
+    <div className='app'>
+      <Counter />
+    </div>
+  );
 }
 
 export default App;
