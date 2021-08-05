@@ -3,9 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { LoginForm } from '../LoginForm';
 import faker from 'faker';
 
-const buildLoginForm = () => ({
+const buildLoginForm = overrides => ({
   username: faker.internet.userName(),
-  password: faker.internet.password()
+  password: faker.internet.password(),
+  ...overrides
 });
 
 it('submitting the form calls onSubmit with username and password', () => {
@@ -13,6 +14,7 @@ it('submitting the form calls onSubmit with username and password', () => {
   render(<LoginForm onSubmit={handleSubmit} />);
 
   const { username, password } = buildLoginForm();
+  //   const { username, password } = buildLoginForm({ username: 'failure' });
   userEvent.type(screen.getByLabelText(/username/i), username);
   userEvent.type(screen.getByLabelText(/password/i), password);
 
