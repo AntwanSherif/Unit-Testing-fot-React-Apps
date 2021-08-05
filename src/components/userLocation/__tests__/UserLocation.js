@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { UserLocation } from '../UserLocation';
 
 beforeAll(() => {
@@ -33,10 +33,11 @@ it('displays the user current location', async () => {
   render(<UserLocation />);
 
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
-  resolve();
-  await promise;
 
-  //   screen.debug();
+  await act(async () => {
+    resolve();
+    await promise;
+  });
 
   expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument();
   expect(screen.getByText(/latitude/i)).toHaveTextContent(`Latitude: ${fakePosition.coords.latitude}`);
