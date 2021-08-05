@@ -6,8 +6,7 @@ const username = 'antwan';
 const password = 'byebye';
 
 it('submitting the form calls onSubmit with username and password', () => {
-  let submittedData;
-  const handleSubmit = data => (submittedData = data);
+  const handleSubmit = jest.fn();
 
   render(<LoginForm onSubmit={handleSubmit} />);
 
@@ -20,7 +19,8 @@ it('submitting the form calls onSubmit with username and password', () => {
     })
   );
 
-  expect(submittedData).toEqual({
+  expect(handleSubmit).toHaveBeenCalledTimes(1);
+  expect(handleSubmit).toHaveBeenCalledWith({
     username,
     password
   });
