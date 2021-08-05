@@ -3,11 +3,8 @@ import { Button } from '../Button';
 import { ThemeProvider } from '../theme';
 
 it('render with the light theme when the light theme is set', () => {
-  render(
-    <ThemeProvider>
-      <Button>Click me</Button>
-    </ThemeProvider>
-  );
+  const Wrapper = ({ children }) => <ThemeProvider initialTheme='light'>{children}</ThemeProvider>;
+  render(<Button>Click me</Button>, { wrapper: Wrapper });
   const button = screen.getByRole('button', { name: /click me/i });
 
   expect(button).toHaveStyle(`
