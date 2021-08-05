@@ -3,8 +3,7 @@ import { Spinner } from '../spinner';
 
 export function UserLocation() {
   const [position, error] = useCurrentPosition();
-  console.log('position :>> ', position);
-  console.log('error :>> ', error);
+
   if (!position && !error) {
     return <Spinner />;
   }
