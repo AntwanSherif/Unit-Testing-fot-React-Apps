@@ -1,20 +1,9 @@
+import { useState } from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { UserLocation } from '../UserLocation';
+import { useCurrentPosition } from 'react-use-geolocation';
 
-beforeAll(() => {
-  window.navigator.geolocation = {
-    getCurrentPosition: jest.fn()
-  };
-});
-
-function deferred() {
-  let resolve, reject;
-  const promise = new Promise((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-  return { promise, resolve, reject };
-}
+jest.mock('react-use-geolocation');
 
 it('displays the user current location', async () => {
   const fakePosition = {
@@ -23,20 +12,21 @@ it('displays the user current location', async () => {
       longitude: 139
     }
   };
-  const { promise, resolve } = deferred();
 
-  //   window.navigator.geolocation.getCurrentPosition.mockImplementation(cb => cb(fakePosition));
-  window.navigator.geolocation.getCurrentPosition.mockImplementation(callback => {
-    promise.then(() => callback(fakePosition));
-  });
+  let setReturnValue;
+  function useMockCurrentPosition() {
+    const state = useState([]);
+    setReturnValue = state[1];
+    return state[0];
+  }
+  useCurrentPosition.mockImplementation(useMockCurrentPosition);
 
   render(<UserLocation />);
 
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
 
-  await act(async () => {
-    resolve();
-    await promise;
+  act(() => {
+    setReturnValue([fakePosition]);
   });
 
   expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument();
