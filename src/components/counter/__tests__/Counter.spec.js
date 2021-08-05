@@ -1,11 +1,12 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Counter } from '../Counter';
 
 it('Counter increments and decrements when the buttons are clicked', () => {
-  const { container } = render(<Counter />);
+  render(<Counter />);
 
-  const message = container.firstChild.querySelector('div');
-  const [decrement, increment] = container.querySelectorAll('button');
+  const message = screen.getByText(/current count/i);
+  const decrement = screen.getByRole('button', { name: /decrement/i });
+  const increment = screen.getByRole('button', { name: /increment/i });
 
   expect(message).toHaveTextContent('Current count: 0');
   fireEvent.click(increment);
