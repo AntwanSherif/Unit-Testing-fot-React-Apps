@@ -1,10 +1,10 @@
-import { Counter } from './components/counter';
+import { LoginForm } from './components';
 import './App.css';
 
 function App() {
   return (
     <div className='app'>
-      <Counter />
+      <LoginForm />
     </div>
   );
 }
