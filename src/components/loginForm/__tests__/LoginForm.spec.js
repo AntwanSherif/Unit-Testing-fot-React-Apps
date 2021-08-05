@@ -1,15 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LoginForm } from '../LoginForm';
+import faker from 'faker';
 
-const username = 'antwan';
-const password = 'byebye';
+const buildLoginForm = () => ({
+  username: faker.internet.userName(),
+  password: faker.internet.password()
+});
 
 it('submitting the form calls onSubmit with username and password', () => {
   const handleSubmit = jest.fn();
-
   render(<LoginForm onSubmit={handleSubmit} />);
 
+  const { username, password } = buildLoginForm();
   userEvent.type(screen.getByLabelText(/username/i), username);
   userEvent.type(screen.getByLabelText(/password/i), password);
 
